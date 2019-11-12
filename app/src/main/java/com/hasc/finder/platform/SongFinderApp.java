@@ -1,8 +1,8 @@
-package com.hasc.finder;
+package com.hasc.finder.platform;
 
 import android.app.Application;
 
-public class BaseApplication extends Application {
+public class SongFinderApp extends Application {
 
     @Override
     public void onCreate() {
