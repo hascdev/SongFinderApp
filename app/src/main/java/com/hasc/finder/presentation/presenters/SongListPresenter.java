@@ -82,7 +82,7 @@ public class SongListPresenter implements Handler<List<Song>> {
         saveSelectedSongId(song.getId());
         SongListView songListView = view.get();
         if (songListView!=null) {
-            songListView.navigateToDetailScreen(getSelectedSongId());
+            songListView.navigateToDetailScreen(song);
         }
     }
 
