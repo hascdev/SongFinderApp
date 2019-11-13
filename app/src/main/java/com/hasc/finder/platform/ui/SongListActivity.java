@@ -1,5 +1,6 @@
 package com.hasc.finder.platform.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.hasc.finder.R;
+import com.hasc.finder.domain.Song;
 import com.hasc.finder.platform.ui.adapter.SongsAdapter;
 import com.hasc.finder.presentation.SongListView;
 import com.hasc.finder.presentation.presenters.SongListPresenter;
@@ -20,6 +22,8 @@ import javax.inject.Inject;
 public class SongListActivity extends BaseActivity implements SongListView {
 
     public static final String MUSIC_MEDIA_TYPE = "music";
+    public static final String EXTRA_SONG = "_EXTRA_SONG";
+
     @Inject
     SongListPresenter presenter;
 
@@ -70,13 +74,15 @@ public class SongListActivity extends BaseActivity implements SongListView {
                 if (term != null && !term.isEmpty()) {
                     presenter.search(MUSIC_MEDIA_TYPE, term);
                 }
-
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if (newText == null || newText.isEmpty()) {
+                    presenter.search(MUSIC_MEDIA_TYPE, newText);
+                }
+                return true;
             }
         });
 
@@ -94,7 +100,9 @@ public class SongListActivity extends BaseActivity implements SongListView {
     }
 
     @Override
-    public void navigateToDetailScreen(int songId) {
-        // TODO: ir al detalle de la canción.
+    public void navigateToDetailScreen(Song song) {
+        Intent intent = new Intent(this, SongDetailActivity.class);
+        intent.putExtra(EXTRA_SONG, song);
+        startActivity(intent);
     }
 }
