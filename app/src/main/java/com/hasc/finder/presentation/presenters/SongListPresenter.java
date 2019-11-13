@@ -2,6 +2,7 @@ package com.hasc.finder.presentation.presenters;
 
 import com.hasc.finder.domain.Handler;
 import com.hasc.finder.domain.Song;
+import com.hasc.finder.domain.interactor.GetSongsUseCase;
 import com.hasc.finder.domain.interactor.UseCase;
 import com.hasc.finder.domain.interactor.UseCaseFactory;
 import com.hasc.finder.presentation.SongHolder;
@@ -16,11 +17,13 @@ public class SongListPresenter implements Handler<List<Song>> {
 
     private UseCaseFactory useCaseFactory;
 
+    private String mediaType, term;
+
+    private int selectedSongId;
+
     private WeakReference<SongListView> view;
 
     private List<Song> songList;
-
-    private int selectedSongId;
 
     @Inject
     public SongListPresenter(UseCaseFactory useCaseFactory){
@@ -51,11 +54,13 @@ public class SongListPresenter implements Handler<List<Song>> {
         view = new WeakReference<>(songListView);
     }
 
-    public void viewReady(){
+    public void refresh(){
         invokeUseCase();
     }
 
-    public void refresh(){
+    public void search(String mediaType, String term) {
+        this.mediaType = mediaType;
+        this.term = term;
         invokeUseCase();
     }
 
@@ -83,7 +88,7 @@ public class SongListPresenter implements Handler<List<Song>> {
 
     private void invokeUseCase(){
         UseCase useCase = useCaseFactory.getSongs();
-        useCase.execute(this, "in utero");
+        useCase.execute(this, new GetSongsUseCase.Params(mediaType, term));
     }
 
     public void saveSongs(List<Song> songList){
