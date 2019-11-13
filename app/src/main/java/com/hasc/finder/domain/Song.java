@@ -2,9 +2,10 @@ package com.hasc.finder.domain;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public final class Song {
+public final class Song implements Serializable {
 
     private final int id;
     private final String artistName;
