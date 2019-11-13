@@ -6,7 +6,7 @@ import com.hasc.finder.domain.repository.SongsRepository;
 
 import java.util.List;
 
-public class GetSongsUseCase implements UseCase<List<Song>, String> {
+public class GetSongsUseCase implements UseCase<List<Song>, GetSongsUseCase.Params> {
 
     private SongsRepository repository;
 
@@ -15,9 +15,9 @@ public class GetSongsUseCase implements UseCase<List<Song>, String> {
     }
 
     @Override
-    public void execute(final Handler<List<Song>> handler, String term) {
+    public void execute(final Handler<List<Song>> handler, GetSongsUseCase.Params params) {
 
-        repository.getSongs("music", term, new Handler<List<Song>>() {
+        repository.getSongs(params.getMediaType(), params.getTerm(), new Handler<List<Song>>() {
 
             @Override
             public void handle(List<Song> songList) {
@@ -29,5 +29,24 @@ public class GetSongsUseCase implements UseCase<List<Song>, String> {
                 handler.error(exception);
             }
         });
+    }
+
+    public static final class Params {
+
+        private final String mediaType;
+        private final String term;
+
+        public Params(String mediaType, String term) {
+            this.mediaType = mediaType;
+            this.term = term;
+        }
+
+        public String getMediaType() {
+            return mediaType;
+        }
+
+        public String getTerm() {
+            return term;
+        }
     }
 }
