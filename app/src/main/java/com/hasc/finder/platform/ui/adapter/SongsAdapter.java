@@ -13,6 +13,7 @@ import com.hasc.finder.R;
 import com.hasc.finder.domain.Song;
 import com.hasc.finder.presentation.SongHolder;
 import com.hasc.finder.presentation.presenters.SongListPresenter;
+import com.squareup.picasso.Picasso;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
@@ -26,7 +27,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     @NonNull
     @Override
     public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (parent instanceof RecyclerView ) {
+        if (parent instanceof RecyclerView) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_song, parent, false);
             return new SongViewHolder(view);
         } else {
@@ -66,16 +67,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         @Override
         public void display(Song song) {
-
+            Picasso.get().load(song.getArtworkUrl100()).into(artwork);
             name.setText(song.getTrackName());
             artist.setText(song.getArtistName());
-
-            /*
-            Picasso.with(imageView.getContext())
-                    .load(url)
-                    .placeholder(R.drawable.movie_placeholder)
-                    .into(imageView);
-             */
         }
 
         @Override
