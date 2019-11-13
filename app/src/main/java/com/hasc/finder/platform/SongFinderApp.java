@@ -1,11 +1,18 @@
 package com.hasc.finder.platform;
 
-import android.app.Application;
+import com.hasc.finder.platform.di.app.AppComponent;
+import com.hasc.finder.platform.di.app.DaggerAppComponent;
 
-public class SongFinderApp extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+
+public class SongFinderApp extends DaggerApplication {
+
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected AndroidInjector<SongFinderApp> applicationInjector() {
+        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+        appComponent.inject(this);
+        return appComponent;
     }
 }
